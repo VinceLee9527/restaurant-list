@@ -24,7 +24,11 @@ app.get('/search', (req, res) => {
     return restaurant.name.toLowerCase().includes(req.query.keyword.trim().toLowerCase())
   })
 
-  res.render('index', { restaurant: restaurants, keyword: req.query.keyword.trim() })
+  if (restaurants.length > 0) {
+    res.render('index', { restaurant: restaurants, keyword: req.query.keyword.trim() })
+  } else {
+    res.render('emptyResult', { keyword: req.query.keyword })
+  }
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
