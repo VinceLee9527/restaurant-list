@@ -15,10 +15,12 @@ const restaurantList = require('./restaurant.json')
 //static file set
 app.use(express.static('public'))
 
+//render landing page handlebars
 app.get('/', (req, res) => {
   res.render('index', { restaurant: restaurantList.results })
 })
 
+//using .filter to render search results. If search result empty, render emptyResult handlebars to display search empty message
 app.get('/search', (req, res) => {
   const restaurants = restaurantList.results.filter((restaurant) => {
     return restaurant.name.toLowerCase().includes(req.query.keyword.trim().toLowerCase())
@@ -31,6 +33,7 @@ app.get('/search', (req, res) => {
   }
 })
 
+// render show page by fetching id fomr params
 app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
   res.render('show', { restaurant: restaurant })
